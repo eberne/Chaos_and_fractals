@@ -1,16 +1,22 @@
-# This is a sample Python script.
+import numpy as np
+from bokeh.plotting import figure, show
+from bokeh.util.hex import axial_to_cartesian
 
-# Press Alt+Shift+X to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+q = np.array([0,  0, 0, -1, -1,  1, 1])
+r = np.array([0, -1, 1,  0,  1, -1, 0])
 
+# q = ([0,-1])
+# r = ([-1,1])
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+Shift+B to toggle the breakpoint.
+p = figure(width=400, height=400, toolbar_location=None)
+p.grid.visible = False
 
+p.hex_tile(q, r, size=1, fill_color=["firebrick"]*3 + ["navy"]*4,
+           line_color="white", alpha=0.7, line_width= 6)
 
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('Ed')
+x, y = axial_to_cartesian(q, r, 1, "pointytop")
 
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+p.text(x, y, text=[f"({q}, {r})" for (q, r) in zip(q, r)],
+       text_baseline="middle", text_align="center")
+
+show(p)
